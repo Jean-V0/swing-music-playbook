@@ -86,7 +86,3 @@
         groups: docker
         append: true
 
-    - name: Reinicia a instância para aplicar o provisionamento
-      ansible.builtin.reboot:
-        msg: "Reinicialização solicitada pelo playbook de provisionamento"
-        reboot_timeout: 10
