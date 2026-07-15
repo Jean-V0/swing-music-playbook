@@ -1,0 +1,68 @@
+---
+- name: Provisiona o servidor SwingMusic
+  hosts: servidor
+  become: true
+  vars:
+    deploy_user: ec2-user
+    app_directory: /opt/swingmusic
+    compose_plugin_version: v5.1.2
+    compose_plugin_arch: x86_64
+
+  tasks:
+    - name: Instala Docker e dependências
+      ansible.builtin.dnf:
+        name:
+          - docker
+          - curl
+        state: present
+
+    - name: Instala o plugin Docker Compose para todos os usuários
+      ansible.builtin.get_url:
+        url: "https://github.com/docker/compose/releases/download/{{ compose_plugin_version }}/docker-compose-linux-{{ compose_plugin_arch }}"
+        dest: /usr/local/lib/docker/cli-plugins/docker-compose
+        mode: "0755"
+        owner: root
+        group: root
+
+    - name: Habilita e inicia o Docker
+      ansible.builtin.systemd_service:
+        name: docker
+        enabled: true
+        state: started
+
+    - name: Adiciona ec2-user ao grupo docker
+      ansible.builtin.user:
+        name: "{{ deploy_user }}"
+        groups: docker
+        append: true
+
+    - name: Cria diretórios da aplicação e configuração
+      ansible.builtin.file:
+        path: "{{ item }}"
+        state: directory
+        owner: "{{ deploy_user }}"
+        group: "{{ deploy_user }}"
+        mode: "0755"
+      loop:
+        - "{{ app_directory }}"
+        - "{{ app_directory }}/config"
+
+    - name: Publica o Docker Compose do SwingMusic
+      ansible.builtin.template:
+        src: compose.yml.j2
+        dest: "{{ app_directory }}/compose.yml"
+        owner: "{{ deploy_user }}"
+        group: "{{ deploy_user }}"
+        mode: "0644"
+
+    - name: Confirma que Docker Compose está disponível
+      ansible.builtin.command: docker compose version
+      changed_when: false
+
+    - name: Inicia o SwingMusic
+      ansible.builtin.command:
+        cmd: docker compose up -d
+        chdir: "{{ app_directory }}"
+      become_user: "{{ deploy_user }}"
+      register: swingmusic_up
+      changed_when: "'Started' in swingmusic_up.stdout or 'Created' in swingmusic_up.stdout or 'Recreated' in swingmusic_up.stdout"

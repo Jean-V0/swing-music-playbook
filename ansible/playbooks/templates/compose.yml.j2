@@ -1,0 +1,13 @@
+services:
+  swingmusic:
+    image: ghcr.io/swingmx/swingmusic:latest
+    container_name: swingmusic
+    ports:
+      - "1970:1970"
+    volumes:
+      - /opt/musics:/music
+      - /opt/swingmusic/config:/config
+    environment:
+      SWINGMUSIC_PORT: "1970"
+      SWINGMUSIC_DEVICE_NAME: "{{ ansible_hostname }}"
+    restart: unless-stopped
