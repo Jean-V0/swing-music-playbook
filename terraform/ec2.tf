@@ -1,6 +1,7 @@
 resource "aws_instance" "music_server" {
   ami                    = data.aws_ami.amazon_linux_2023.id
   instance_type          = "t3.small"
+  key_name               = aws_key_pair.music_server.key_name
   iam_instance_profile   = aws_iam_instance_profile.ec2_s3_profile.name
   vpc_security_group_ids = [aws_security_group.music_server.id]
 
@@ -9,12 +10,17 @@ resource "aws_instance" "music_server" {
     volume_type = "gp3"
   }
 
-  user_data = templatefile("${path.module}/mount-s3.sh", {
-    s3_bucket = var.s3_bucket_name
-  })
-
   tags = {
     Name = "swing-music-server"
+  }
+}
+
+resource "aws_key_pair" "music_server" {
+  key_name   = "swingmusic-tchola"
+  public_key = file("${path.module}/tchola.pub")
+
+  tags = {
+    Name = "swingmusic-tchola"
   }
 }
 
@@ -84,7 +90,7 @@ resource "aws_security_group" "music_server" {
     from_port   = 22
     to_port     = 22
     protocol    = "tcp"
-    cidr_blocks = [var.allowed_ssh_cidr]
+    cidr_blocks = [var.allowed_ssh_cidr, "18.228.70.32/29"]
   }
 
   ingress {
@@ -124,6 +130,16 @@ resource "aws_security_group" "music_server" {
 output "ec2_public_ip" {
   value       = aws_instance.music_server.public_ip
   description = "Public IP of the EC2 instance"
+}
+
+output "ec2_public_dns" {
+  value       = aws_instance.music_server.public_dns
+  description = "Public DNS of the EC2 instance"
+}
+
+output "swingmusic_url" {
+  value       = "http://${aws_instance.music_server.public_ip}:1970"
+  description = "Public URL of SwingMusic"
 }
 
 output "ec2_private_ip" {
