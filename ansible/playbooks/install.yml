@@ -5,24 +5,31 @@
   vars:
     deploy_user: ec2-user
     app_directory: /opt/swingmusic
-    compose_plugin_version: v5.1.2
+    compose_plugin_version: v5.3.1
     compose_plugin_arch: x86_64
 
   tasks:
-    - name: Baixa o RPM do Mountpoint for Amazon S3
+    - name: Cria arquivo temporário para o RPM
+      ansible.builtin.tempfile:
+        state: file
+        suffix: .rpm
+      register: mount_s3_rpm
+
+    - name: Baixa o Mountpoint for Amazon S3
       ansible.builtin.get_url:
         url: https://s3.amazonaws.com/mountpoint-s3-release/latest/x86_64/mount-s3.rpm
-        dest: /tmp/mount-s3.rpm
+        dest: "{{ mount_s3_rpm.path }}"
         mode: "0644"
+        force: true ## ISSO CAR****, BAIXA
 
     - name: Instala o Mountpoint for Amazon S3
-      ansible.builtin.dnf:
-        name: /tmp/mount-s3.rpm
-        state: present
+      ansible.builtin.command:
+        cmd: dnf install -y "{{ mount_s3_rpm.path }}"
+      register: dnf_install
 
-    - name: Remove o RPM temporário do Mountpoint
+    - name: Remove RPM temporário
       ansible.builtin.file:
-        path: /tmp/mount-s3.rpm
+        path: "{{ mount_s3_rpm.path }}"
         state: absent
 
     - name: Cria o ponto de montagem das músicas
@@ -40,14 +47,24 @@
 
     - name: Monta os filesystems configurados no fstab
       ansible.builtin.command: mount -a
+      register: mount_result
       changed_when: false
+      failed_when:
+        - mount_result.rc != 0
+        - "'already mounted' not in mount_result.stderr"
 
     - name: Instala Docker e dependências
       ansible.builtin.dnf:
         name:
           - docker
-          - curl
         state: present
+        
+    ## Faz sentido meu nobre
+    - name: Cria diretório dos plugins do Docker
+      ansible.builtin.file:
+        path: /usr/local/lib/docker/cli-plugins
+        state: directory
+        mode: "0755"
 
     - name: Instala o plugin Docker Compose para todos os usuários
       ansible.builtin.get_url:
@@ -69,33 +86,7 @@
         groups: docker
         append: true
 
-    - name: Cria diretórios da aplicação e configuração
-      ansible.builtin.file:
-        path: "{{ item }}"
-        state: directory
-        owner: "{{ deploy_user }}"
-        group: "{{ deploy_user }}"
-        mode: "0755"
-      loop:
-        - "{{ app_directory }}"
-        - "{{ app_directory }}/config"
-
-    - name: Publica o Docker Compose do SwingMusic
-      ansible.builtin.template:
-        src: compose.yml.j2
-        dest: "{{ app_directory }}/compose.yml"
-        owner: "{{ deploy_user }}"
-        group: "{{ deploy_user }}"
-        mode: "0644"
-
-    - name: Confirma que Docker Compose está disponível
-      ansible.builtin.command: docker compose version
-      changed_when: false
-
-    - name: Inicia o SwingMusic
-      ansible.builtin.command:
-        cmd: docker compose up -d
-        chdir: "{{ app_directory }}"
-      become_user: "{{ deploy_user }}"
-      register: swingmusic_up
-      changed_when: "'Started' in swingmusic_up.stdout or 'Created' in swingmusic_up.stdout or 'Recreated' in swingmusic_up.stdout"
+    - name: Reinicia a instância para aplicar o provisionamento
+      ansible.builtin.reboot:
+        msg: "Reinicialização solicitada pelo playbook de provisionamento"
+        reboot_timeout: 10

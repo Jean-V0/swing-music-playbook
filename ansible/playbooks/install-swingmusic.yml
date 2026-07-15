@@ -1,0 +1,39 @@
+---
+- name: Instala e inicia o SwingMusic
+  hosts: servidor
+  become: true
+  vars:
+    deploy_user: ec2-user
+    app_directory: /opt/swingmusic
+
+  tasks:
+    - name: Confirma que Docker Compose está disponível
+      ansible.builtin.command: docker compose version
+      changed_when: false
+
+    - name: Cria diretórios da aplicação e configuração
+      ansible.builtin.file:
+        path: "{{ item }}"
+        state: directory
+        owner: "{{ deploy_user }}"
+        group: "{{ deploy_user }}"
+        mode: "0755"
+      loop:
+        - "{{ app_directory }}"
+        - "{{ app_directory }}/config"
+
+    - name: Publica o Docker Compose do SwingMusic
+      ansible.builtin.template:
+        src: compose.yml.j2
+        dest: "{{ app_directory }}/compose.yml"
+        owner: "{{ deploy_user }}"
+        group: "{{ deploy_user }}"
+        mode: "0644"
+
+    - name: Inicia o SwingMusic
+      ansible.builtin.command:
+        cmd: docker compose up -d
+        chdir: "{{ app_directory }}"
+      become_user: "{{ deploy_user }}"
+      register: swingmusic_up
+      changed_when: "'Started' in swingmusic_up.stdout or 'Created' in swingmusic_up.stdout or 'Recreated' in swingmusic_up.stdout"
