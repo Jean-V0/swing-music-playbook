@@ -9,6 +9,39 @@
     compose_plugin_arch: x86_64
 
   tasks:
+    - name: Baixa o RPM do Mountpoint for Amazon S3
+      ansible.builtin.get_url:
+        url: https://s3.amazonaws.com/mountpoint-s3-release/latest/x86_64/mount-s3.rpm
+        dest: /tmp/mount-s3.rpm
+        mode: "0644"
+
+    - name: Instala o Mountpoint for Amazon S3
+      ansible.builtin.dnf:
+        name: /tmp/mount-s3.rpm
+        state: present
+
+    - name: Remove o RPM temporário do Mountpoint
+      ansible.builtin.file:
+        path: /tmp/mount-s3.rpm
+        state: absent
+
+    - name: Cria o ponto de montagem das músicas
+      ansible.builtin.file:
+        path: /opt/musics
+        state: directory
+        mode: "0755"
+
+    - name: Mantém o bucket S3 montado após reinicializações
+      ansible.builtin.lineinfile:
+        path: /etc/fstab
+        regexp: '^s3://.* /opt/musics mount-s3 '
+        line: 's3://{{ s3_bucket_name }}/ /opt/musics mount-s3 _netdev,nosuid,nodev,rw,allow-other,nofail 0 0'
+        create: true
+
+    - name: Monta os filesystems configurados no fstab
+      ansible.builtin.command: mount -a
+      changed_when: false
+
     - name: Instala Docker e dependências
       ansible.builtin.dnf:
         name:
