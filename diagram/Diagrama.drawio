@@ -1,0 +1,121 @@
+<mxfile host="app.diagrams.net">
+  <diagram name="Page-1" id="M2Mms8ThDDhtXsJaBtFU">
+    <mxGraphModel dx="3207" dy="1272" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="bl5ZNZCo1HwOf5qmqeDA-5" edge="1" parent="1" source="bl5ZNZCo1HwOf5qmqeDA-1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="321" y="400" as="sourcePoint" />
+            <mxPoint x="141" y="480" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="bl5ZNZCo1HwOf5qmqeDA-6" connectable="0" parent="bl5ZNZCo1HwOf5qmqeDA-5" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="Buscar role&lt;br&gt;&lt;br&gt;sts:AssumeRole ec2" vertex="1">
+          <mxGeometry relative="1" x="-0.0846" as="geometry">
+            <mxPoint x="28" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="bl5ZNZCo1HwOf5qmqeDA-14" edge="1" parent="1" source="bl5ZNZCo1HwOf5qmqeDA-1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" target="bl5ZNZCo1HwOf5qmqeDA-3">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="470" y="160" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="bl5ZNZCo1HwOf5qmqeDA-15" connectable="0" parent="bl5ZNZCo1HwOf5qmqeDA-14" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="Acessar S3 para montar pelo fs&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;s3://{{ s3_bucket_name }}/ /opt/musics mount-s3 _netdev,nosuid,nodev,rw,allow-other,nofail 0 0&lt;/div&gt;" vertex="1">
+          <mxGeometry relative="1" x="-0.1444" as="geometry">
+            <mxPoint x="10" y="64" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="bl5ZNZCo1HwOf5qmqeDA-26" edge="1" parent="1" source="bl5ZNZCo1HwOf5qmqeDA-1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" target="bl5ZNZCo1HwOf5qmqeDA-25">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="470" y="500" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="bl5ZNZCo1HwOf5qmqeDA-27" connectable="0" parent="bl5ZNZCo1HwOf5qmqeDA-26" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="Docker compose para swing music" vertex="1">
+          <mxGeometry relative="1" x="0.0783" y="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="bl5ZNZCo1HwOf5qmqeDA-1" parent="1" style="sketch=0;outlineConnect=0;fontColor=#232F3E;gradientColor=none;strokeColor=#ffffff;fillColor=#232F3E;dashed=0;verticalLabelPosition=middle;verticalAlign=bottom;align=center;html=1;whiteSpace=wrap;fontSize=10;fontStyle=1;spacing=3;shape=mxgraph.aws4.productIcon;prIcon=mxgraph.aws4.ec2;" value="Swing Music ec2" vertex="1">
+          <mxGeometry height="120" width="80" x="430" y="330" as="geometry" />
+        </mxCell>
+        <mxCell id="bl5ZNZCo1HwOf5qmqeDA-3" parent="1" style="sketch=0;outlineConnect=0;fontColor=#232F3E;gradientColor=none;strokeColor=#ffffff;fillColor=#232F3E;dashed=0;verticalLabelPosition=middle;verticalAlign=bottom;align=center;html=1;whiteSpace=wrap;fontSize=10;fontStyle=1;spacing=3;shape=mxgraph.aws4.productIcon;prIcon=mxgraph.aws4.s3;" value="&lt;div&gt;S3 de musicas&lt;/div&gt;" vertex="1">
+          <mxGeometry height="100" width="80" x="200" y="110" as="geometry" />
+        </mxCell>
+        <mxCell id="bl5ZNZCo1HwOf5qmqeDA-9" edge="1" parent="1" source="bl5ZNZCo1HwOf5qmqeDA-4" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" target="bl5ZNZCo1HwOf5qmqeDA-3">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="40" y="540" />
+              <mxPoint x="40" y="160" />
+            </Array>
+            <mxPoint x="30" y="50" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="bl5ZNZCo1HwOf5qmqeDA-11" connectable="0" parent="bl5ZNZCo1HwOf5qmqeDA-9" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="Permissão Bucket S3&lt;div&gt;&lt;span style=&quot;background-color: light-dark(#ffffff, var(--ge-dark-color, #121212)); color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;Action = [&lt;/span&gt;&lt;div&gt;&lt;div&gt;&amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &quot;s3:GetObject&quot;,&lt;/div&gt;&lt;div&gt;&amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &quot;s3:ListBucket&quot;&lt;/div&gt;&lt;div&gt;&amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; ]&lt;/div&gt;&lt;div&gt;Resource = [&lt;/div&gt;&lt;div&gt;&amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &quot;arn:aws:s3:::${var.s3_bucket_name}&quot;,&lt;/div&gt;&lt;div&gt;&amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &quot;arn:aws:s3:::${var.s3_bucket_name}/*&quot;&lt;/div&gt;&lt;div&gt;&amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; ]&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;" vertex="1">
+          <mxGeometry relative="1" x="-0.2482" y="4" as="geometry">
+            <mxPoint y="-74" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="bl5ZNZCo1HwOf5qmqeDA-4" parent="1" style="sketch=0;outlineConnect=0;fontColor=#232F3E;gradientColor=none;strokeColor=#ffffff;fillColor=#232F3E;dashed=0;verticalLabelPosition=middle;verticalAlign=bottom;align=center;html=1;whiteSpace=wrap;fontSize=10;fontStyle=1;spacing=3;shape=mxgraph.aws4.productIcon;prIcon=mxgraph.aws4.identity_and_access_management;" value="AWS Identity and Access Management" vertex="1">
+          <mxGeometry height="120" width="80" x="100" y="480" as="geometry" />
+        </mxCell>
+        <mxCell id="bl5ZNZCo1HwOf5qmqeDA-16" parent="1" style="shape=rect;fillColor=#EE5396;aspect=fixed;resizable=0;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none;fontSize=14;" value="Ansible" vertex="1">
+          <mxGeometry height="48" width="48" x="940" y="110" as="geometry" />
+        </mxCell>
+        <mxCell id="bl5ZNZCo1HwOf5qmqeDA-17" parent="bl5ZNZCo1HwOf5qmqeDA-16" style="fillColor=#ffffff;strokeColor=none;dashed=0;outlineConnect=0;html=1;labelPosition=center;verticalLabelPosition=bottom;verticalAlign=top;part=1;movable=0;resizable=0;rotatable=0;shape=mxgraph.ibm_cloud.logo--ansible-community" value="" vertex="1">
+          <mxGeometry height="24" relative="1" width="24" as="geometry">
+            <mxPoint x="12" y="12" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="bl5ZNZCo1HwOf5qmqeDA-21" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;fontSize=20;" value="Infraestrutura AWS" vertex="1">
+          <mxGeometry height="70" width="190" x="230" y="520" as="geometry" />
+        </mxCell>
+        <mxCell id="bl5ZNZCo1HwOf5qmqeDA-22" edge="1" parent="1" source="bl5ZNZCo1HwOf5qmqeDA-16" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;" target="bl5ZNZCo1HwOf5qmqeDA-1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="964" y="370" />
+            </Array>
+            <mxPoint x="964" y="170" as="sourcePoint" />
+            <mxPoint x="560" y="380" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="bl5ZNZCo1HwOf5qmqeDA-23" connectable="0" parent="bl5ZNZCo1HwOf5qmqeDA-22" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="Playbooks para:&lt;br&gt;1. Configurar docker, docker-compose, chown permissão install s3 mount e dependencias&lt;div&gt;2. Docker compose para swing music e executar&lt;/div&gt;" vertex="1">
+          <mxGeometry relative="1" x="-0.5559" y="-2" as="geometry">
+            <mxPoint x="2" y="-47" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="bl5ZNZCo1HwOf5qmqeDA-25" parent="1" style="image;sketch=0;aspect=fixed;html=1;points=[];align=center;fontSize=12;image=img/lib/mscae/Docker.svg;" value="" vertex="1">
+          <mxGeometry height="41" width="50" x="445" y="550" as="geometry" />
+        </mxCell>
+        <mxCell id="bl5ZNZCo1HwOf5qmqeDA-33" edge="1" parent="1" source="bl5ZNZCo1HwOf5qmqeDA-30" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.489;entryY=1;entryDx=0;entryDy=0;entryPerimeter=0;" target="bl5ZNZCo1HwOf5qmqeDA-31">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="964" y="690" />
+              <mxPoint x="326" y="690" />
+            </Array>
+            <mxPoint x="740" y="485" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="bl5ZNZCo1HwOf5qmqeDA-34" connectable="0" parent="bl5ZNZCo1HwOf5qmqeDA-33" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="Text" vertex="1">
+          <mxGeometry relative="1" x="-0.1008" y="-2" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="bl5ZNZCo1HwOf5qmqeDA-35" connectable="0" parent="bl5ZNZCo1HwOf5qmqeDA-33" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="IAC para configurar EC2 e Role&lt;br&gt;EC2: Botar IAM Role, instancia, configurar security group&lt;div&gt;IAM Role: AssumeRole para ec2 e acesso a s3&lt;/div&gt;" vertex="1">
+          <mxGeometry relative="1" x="-0.819" y="-2" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="bl5ZNZCo1HwOf5qmqeDA-30" parent="1" style="whiteSpace=wrap;html=1;" value="Terraform&lt;div&gt;&amp;lt; Não achei diagrama ou foto&lt;/div&gt;" vertex="1">
+          <mxGeometry height="110" width="130" x="899" y="400" as="geometry" />
+        </mxCell>
+        <mxCell id="bl5ZNZCo1HwOf5qmqeDA-31" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fontColor=none;noLabel=1;fillColor=none;" value="" vertex="1">
+          <mxGeometry height="520" width="810" x="-80" y="80" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
