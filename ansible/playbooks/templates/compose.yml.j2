@@ -3,7 +3,7 @@ services:
     image: ghcr.io/swingmx/swingmusic:latest
     container_name: swingmusic
     ports:
-      - "1970:1970"
+      - "0.0.0.0:80:1970"
     volumes:
       - /opt/musics:/music
       - /opt/swingmusic/config:/config
